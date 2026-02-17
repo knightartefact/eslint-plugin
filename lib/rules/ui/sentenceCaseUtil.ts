@@ -159,9 +159,9 @@ export function unwrapExpression(
     let current: TSESTree.Node | null | undefined = node;
     while (current) {
         if (
-            current.type === "TSAsExpression" ||
-            current.type === "TSSatisfiesExpression" ||
-            current.type === "TSNonNullExpression"
+            current.type === TSESTree.AST_NODE_TYPES.TSAsExpression ||
+            current.type === TSESTree.AST_NODE_TYPES.TSSatisfiesExpression ||
+            current.type === TSESTree.AST_NODE_TYPES.TSNonNullExpression
         ) {
             current = current.expression;
             continue;
@@ -337,6 +337,7 @@ function transformSentence(sentence: string, opts: ReturnType<typeof normalizeOp
         const upperToken = firstToken.toUpperCase();
         const leadingContent = sentence.slice(0, firstAlpha)
             .replace(/\p{Emoji}/gu, '')
+            .replaceAll('(', '')
             .trim();
         if (opts.acronyms.has(upperToken)) {
             writeToken(chars, tokenStart, upperToken, firstToken.length);
